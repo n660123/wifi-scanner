@@ -2,16 +2,15 @@
 # Scan APs with 'iw' and output to single-line. 
 # CSV is in the format:
 #   BSSID, freq (MHz), RSSI (dBms), ESSID, channel) 
-# Tested with iw version 3.15 on OpenWrt and 3.4 on Debian GNU/Linux
 
 DATA=/tmp
-#NIC=$(iw dev | grep Interface | awk '{ print $2 }')
+NIC=$(iw dev | grep Interface | awk '{ print $2 }')
 TMPFILE=/tmp/scan.log
 SCAN=$DATA/networks
 S=1;E=5;
 
 # Scrape 'iw' scan output and write to temporary file
-iw dev wlan0 scan | grep -E '^BSS|SSID|DS Parameter set: channel|signal:|freq:'\
+iw dev $NIC scan | grep -E '^BSS|SSID|DS Parameter set: channel|signal:|freq:'\
 | sed -e 's/BSS\ //' -e 's/(on.*$//'  -e 's/DS Parameter\ set:\ channel\ // ' \
 -e 's/SSID:\ //' -e 's/freq://' -e 's/signal: //' -e 's/dBm//'\
     > $TMPFILE && LEN=$(cat $TMPFILE | wc -l)
