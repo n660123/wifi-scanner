@@ -1,7 +1,7 @@
 #!/bin/bash
 # Scan APs with 'iw' and output to single-line. 
 # CSV is in the format:
-#   BSSID, freq (MHz), RSSI (dBms), ESSID, channel) 
+#   BSSID, freq (MHz), RSSI (dBm), ESSID, channel
 
 DATA=/tmp
 NIC=$(iw dev | grep Interface | awk '{ print $2 }')
